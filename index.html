@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Our Newsletter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f4ef; --paper: #ffffff; --ink: #1f1d1a; --muted: #6b655c;
+    --accent: #9a3b26; --line: #e4ded4; --btn-ink: #ffffff;
+    --measure: 68ch;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #161513; --paper: #1f1d1a; --ink: #eee9e1; --muted: #a59e93;
+      --accent: #e08a6d; --line: #34312c; --btn-ink: #161513;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #161513; --paper: #1f1d1a; --ink: #eee9e1; --muted: #a59e93;
+    --accent: #e08a6d; --line: #34312c; --btn-ink: #161513;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 400 1.125rem/1.7 "Source Sans 3", system-ui, sans-serif;
+  }
+  .sheet {
+    max-width: 960px; margin: 0 auto; background: var(--paper);
+    padding: 48px 56px 64px; min-height: 100vh;
+  }
+  h1, h2, h3 { font-family: "Fraunces", Georgia, serif; line-height: 1.15; margin: 0 0 .4em; }
+  p { margin: 0 0 1em; max-width: var(--measure); }
+
+  /* Masthead */
+  .masthead { text-align: center; border-bottom: 3px double var(--line); padding-bottom: 24px; margin-bottom: 40px; }
+  .masthead .kicker { color: var(--accent); font-weight: 600; letter-spacing: .14em; text-transform: uppercase; font-size: .8rem; }
+  .masthead h1 { font-size: clamp(2.4rem, 7vw, 4rem); margin: .15em 0; }
+  .masthead .meta { color: var(--muted); font-size: .95rem; }
+
+  /* Table of contents */
+  .toc { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: center; list-style: none; padding: 0; margin: 0 0 40px; font-size: .95rem; }
+  .toc a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line); }
+  .toc a:hover { color: var(--accent); border-color: var(--accent); }
+
+  section { margin-bottom: 56px; }
+  section > h2 { font-size: clamp(1.6rem, 4vw, 2.2rem); }
+  .lede { font-size: 1.25rem; color: var(--muted); }
+
+  /* Photos */
+  figure { margin: 0 0 24px; }
+  .photo { position: relative; border-radius: 6px; overflow: hidden; background: var(--line); }
+  .photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .photo.placeholder img { display: none; }
+  .photo.placeholder::after {
+    content: attr(data-label); position: absolute; inset: 0; display: grid; place-items: center;
+    color: var(--muted); font-size: .9rem; text-align: center; padding: 12px;
+    background: repeating-linear-gradient(45deg, transparent 0 12px, rgba(127,127,127,.08) 12px 24px);
+  }
+  .ratio-wide { aspect-ratio: 16 / 9; }
+  .ratio-photo { aspect-ratio: 4 / 3; }
+  .ratio-square { aspect-ratio: 1 / 1; }
+  figcaption { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 8px; font-size: .9rem; color: var(--muted); }
+
+  .dl {
+    flex: none; display: inline-flex; align-items: center; gap: 6px;
+    background: var(--accent); color: var(--btn-ink); text-decoration: none;
+    font-weight: 600; font-size: .85rem; padding: 8px 14px; border-radius: 999px; min-height: 36px;
+  }
+  .dl:hover { filter: brightness(1.1); }
+  .dl svg { width: 16px; height: 16px; }
+  .photo.placeholder + figcaption .dl { opacity: .35; pointer-events: none; }
+
+  /* Story with side photo */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+  .split.flip > figure { order: 2; }
+
+  /* Gallery */
+  .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .gallery figure { margin: 0; }
+  .gallery-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 12px; }
+  .dl-all { background: transparent; color: var(--accent); border: 2px solid var(--accent); cursor: pointer; font: inherit; font-weight: 600; font-size: .9rem; }
+
+  blockquote { margin: 0 0 1em; padding-left: 20px; border-left: 4px solid var(--accent); font-family: "Fraunces", Georgia, serif; font-size: 1.35rem; line-height: 1.4; }
+
+  footer { border-top: 1px solid var(--line); padding-top: 24px; color: var(--muted); font-size: .9rem; text-align: center; }
+  footer p { margin: 0 auto .5em; }
+
+  @media (max-width: 720px) {
+    .sheet { padding: 28px 16px 48px; }
+    .split { grid-template-columns: 1fr; gap: 8px; }
+    .split.flip > figure { order: 0; }
+    .gallery { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .gallery figcaption { flex-direction: column; align-items: flex-start; }
+  }
+  @media print {
+    body { background: #fff; } .sheet { padding: 0; } .dl, .dl-all, .toc { display: none !important; }
+    figure, .split { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<main class="sheet">
+
+  <header class="masthead">
+    <div class="kicker">Issue No. 1</div>
+    <h1>Our Newsletter</h1>
+    <div class="meta">November 2026 · News, highlights &amp; photos</div>
+  </header>
+
+  <ul class="toc">
+    <li><a href="#welcome">Welcome</a></li>
+    <li><a href="#feature">Feature story</a></li>
+    <li><a href="#highlights">Highlights</a></li>
+    <li><a href="#gallery">Photo gallery</a></li>
+  </ul>
+
+  <!--
+    HOW TO ADD YOUR PHOTOS
+    Put your photos in the "photos" folder named photo-01.jpg, photo-02.jpg, ... photo-09.jpg
+    (or change the src/href below to match your file names). Each photo appears in two places
+    in its <figure>: the <img src> and the download link's href — keep them the same.
+  -->
+
+  <section id="welcome">
+    <h2>Welcome</h2>
+    <p class="lede">A short, friendly opening that sets the tone for this issue — one or two sentences about what readers will find inside.</p>
+    <figure>
+      <div class="photo ratio-wide" data-label="Photo 1 — main cover photo (wide)">
+        <img src="photos/photo-01.jpg" alt="Describe photo 1" loading="lazy">
+      </div>
+      <figcaption><span>Caption for photo 1.</span>
+        <a class="dl" href="photos/photo-01.jpg" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>Download</a>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section id="feature">
+    <h2>Feature story</h2>
+    <div class="split">
+      <figure>
+        <div class="photo ratio-photo" data-label="Photo 2">
+          <img src="photos/photo-02.jpg" alt="Describe photo 2" loading="lazy">
+        </div>
+        <figcaption><span>Caption for photo 2.</span>
+          <a class="dl" href="photos/photo-02.jpg" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>Download</a>
+        </figcaption>
+      </figure>
+      <div>
+        <p>Your main story goes here. Keep paragraphs short — three or four sentences each — so the page is easy to scan.</p>
+        <blockquote>A memorable quote pulled from the story.</blockquote>
+        <p>Continue the story here. The photo sits beside the text on larger screens and above it on phones.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="highlights">
+    <h2>Highlights</h2>
+    <div class="split flip">
+      <figure>
+        <div class="photo ratio-photo" data-label="Photo 3">
+          <img src="photos/photo-03.jpg" alt="Describe photo 3" loading="lazy">
+        </div>
+        <figcaption><span>Caption for photo 3.</span>
+          <a class="dl" href="photos/photo-03.jpg" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>Download</a>
+        </figcaption>
+      </figure>
+      <div>
+        <h3>Highlight one</h3>
+        <p>A brief update, announcement, or recap. Alternating the photo side keeps the page flowing.</p>
+        <h3>Highlight two</h3>
+        <p>Another short item. Add or remove highlights as needed.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <div class="gallery-head">
+      <h2>Photo gallery</h2>
+      <button class="dl dl-all" type="button" id="dl-all">Download all photos</button>
+    </div>
+    <div class="gallery">
+      <!-- Photos 4–9. Copy a <figure> block to add more. -->
+      <figure><div class="photo ratio-square" data-label="Photo 4"><img src="photos/photo-04.jpg" alt="Describe photo 4" loading="lazy"></div>
+        <figcaption><span>Caption 4</span><a class="dl" href="photos/photo-04.jpg" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>Download</a></figcaption></figure>
+      <figure><div class="photo ratio-square" data-label="Photo 5"><img src="photos/photo-05.jpg" alt="Describe photo 5" loading="lazy"></div>
+        <figcaption><span>Caption 5</span><a class="dl" href="photos/photo-05.jpg" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>Download</a></figcaption></figure>
+      <figure><div class="photo ratio-square" data-label="Photo 6"><img src="photos/photo-06.jpg" alt="Describe photo 6" loading="lazy"></div>
+        <figcaption><span>Caption 6</span><a class="dl" href="photos/photo-06.jpg" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>Download</a></figcaption></figure>
+      <figure><div class="photo ratio-square" data-label="Photo 7"><img src="photos/photo-07.jpg" alt="Describe photo 7" loading="lazy"></div>
+        <figcaption><span>Caption 7</span><a class="dl" href="photos/photo-07.jpg" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>Download</a></figcaption></figure>
+      <figure><div class="photo ratio-square" data-label="Photo 8"><img src="photos/photo-08.jpg" alt="Describe photo 8" loading="lazy"></div>
+        <figcaption><span>Caption 8</span><a class="dl" href="photos/photo-08.jpg" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>Download</a></figcaption></figure>
+      <figure><div class="photo ratio-square" data-label="Photo 9"><img src="photos/photo-09.jpg" alt="Describe photo 9" loading="lazy"></div>
+        <figcaption><span>Caption 9</span><a class="dl" href="photos/photo-09.jpg" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>Download</a></figcaption></figure>
+    </div>
+  </section>
+
+  <footer>
+    <p>Thanks for reading! Tap <strong>Download</strong> under any photo to save it to your device.</p>
+    <p>On iPhone/iPad, you can also press and hold a photo, then choose “Save to Photos.”</p>
+  </footer>
+</main>
+
+<script>
+  // Show a labeled placeholder until a photo file exists.
+  document.querySelectorAll('.photo img').forEach(function (img) {
+    function missing() { img.closest('.photo').classList.add('placeholder'); }
+    if (img.complete && img.naturalWidth === 0) missing();
+    img.addEventListener('error', missing);
+    img.addEventListener('load', function () { img.closest('.photo').classList.remove('placeholder'); });
+  });
+
+  // "Download all": triggers each available photo's download link in turn.
+  document.getElementById('dl-all').addEventListener('click', function () {
+    var links = Array.prototype.filter.call(document.querySelectorAll('figure .dl'), function (a) {
+      return !a.closest('figure').querySelector('.photo.placeholder');
+    });
+    links.forEach(function (a, i) { setTimeout(function () { a.click(); }, i * 400); });
+  });
+</script>
+</body>
+</html>
